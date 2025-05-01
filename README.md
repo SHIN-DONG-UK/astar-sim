@@ -26,3 +26,13 @@ pip install -r requirements.txt
 ```bash
 python main.py
 ```
+
+# 3. 주요 기능
+### 1. 벽 그리기
+<img src="./data/[astar-sim] 그리기.gif">
+
+### 2. 시뮬레이션1
+<img src="./data/[astar-sim] 런.gif">
+
+### 3. 시뮬레이션2
+<img src="./data/[astar-sim] 런2.gif">
