@@ -69,7 +69,7 @@ class AStarSolver:
                 # 방문 안했다 -> inf -> 무조건 갱신
                 if g_new < self.gcost.get((nx, ny), inf):
                     self.gcost[(nx,ny)] = g_new
-                    self.parent[(nx,ny)] = (x,y)
+                    self.parent[(nx,ny)] = (x, y)
                     f_new = g_new + self.h(x, y, *self.grid.goal)
                     heapq.heappush(self.openNode, (f_new, nx, ny))
 
@@ -86,8 +86,7 @@ class AStarSolver:
     def _manhattan(x, y, gx, gy):
         dx = abs(gx - x)
         dy = abs(gy - y)
-        if dx > dy: return 14 * dy + 10 * (dx - dy)
-        return 14 * dx + 10 * (dy - dx)
+        return 10 * (dx + dy)
 
     def _reconstruct(self, v):
         path = [v]
