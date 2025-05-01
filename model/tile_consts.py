@@ -1,0 +1,5 @@
+EMPTY = 0
+WALL = 1
+START = 2
+GOAL = 3
+PLAYER = 4
