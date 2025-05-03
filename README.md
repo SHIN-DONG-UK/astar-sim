@@ -40,4 +40,4 @@ python main.py
 
 # 4. 업데이트
 
-4-1. <a ref="https://velog.io/@ehd2610/astar-sim-Version-0.1"> version 0.1 </a>
+4-1. <a href="https://velog.io/@ehd2610/astar-sim-Version-0.1"> version 0.1 </a>
