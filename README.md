@@ -40,8 +40,4 @@ python main.py
 
 # 4. 업데이트
 
-## 4-1. version 0.1
-### 요구사항 추가
-- astar-solver로 탐색한 칸들을 Run했을 때 다 보여주려고 함
-
-- 실제 이동 칸은 가장 진하게, 그리고 유망한 순서대로 진하게 표시
+#### 4-1.  <a ref="https://velog.io/write?id=eb5b7519-ef1d-4f3a-9f8d-3c6eec2f160e"> version 0.1 </a>
