@@ -10,7 +10,6 @@ class Grid:
         self.tiles = [[EMPTY] * rows for _ in range(cols)] # 2차원 맵
         self.start = None  # 시작점
         self.goal = None   # 도착점
-        self.trail = []  # 경로
 
     # 좌표 유효성 검사
     def in_bounds(self, x, y):
@@ -43,8 +42,6 @@ class Grid:
         self.tiles = [[EMPTY] * self.rows for _ in range(self.cols)]
         self.start = None  # 시작점
         self.goal = None   # 도착점
-        self.player = None
-        self.trail = []
 
     def _get_cost(self, dir):
         if dir%2==0: return 10 # 상하좌우 10

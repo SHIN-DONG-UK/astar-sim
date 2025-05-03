@@ -65,19 +65,28 @@ class Controller(QObject):
         self.view.update_view()
     
     def on_clear(self):
+        # model
         self.grid.clear()
+        # view
+        self.view.canvas.final_path.clear()
+        self.view.canvas.visited_nodes.clear()
+        self.view.canvas.now_pos = None
         self.view.update_view()
     # ───────────────────────────────
     # 실행 / 스텝
     # ───────────────────────────────
     def on_run(self):
-        self.grid.trail.clear()
+        self.view.canvas.visited_nodes.clear()
+        self.view.canvas.final_path.clear()
+
         self.solver = AStarSolver(self.grid)
         if not self.solver.solve():
             self.view.statusBar().showMessage("No path")
             self.solver = None
             return
 
+        # visited_nodes 그리기
+        self.view.canvas.draw_visited_nodes(list(self.solver.gcost.keys()))
         self.path_iter = self.solver.get_path_iter()
         self.timer.timeout.disconnect()
         self.timer.timeout.connect(self.on_tick)
@@ -115,8 +124,8 @@ class Controller(QObject):
     def on_tick(self):
         try:
             x, y = next(self.path_iter)
-            self.grid.player = (x, y)
-            self.grid.trail.append((x, y))
+            self.view.canvas.now_pos = (x, y)
+            self.view.canvas.final_path.append((x, y))
             self.view.update_view()
         except StopIteration:           # 경로 다 소비
             self.timer.stop()

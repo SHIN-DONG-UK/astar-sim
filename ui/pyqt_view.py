@@ -23,6 +23,10 @@ class GridCanvas(QWidget):
         self.setMinimumSize(QSize(w, h))
         self.setMouseTracking(True)
         self._mouse_down = False
+        #
+        self.final_path = []
+        self.visited_nodes = []
+        self.now_pos = None
 
     # 페인팅
     def paintEvent(self, e):
@@ -31,6 +35,7 @@ class GridCanvas(QWidget):
         self._draw_tiles(qp)
         self._draw_player(qp)
         self._draw_path(qp)
+        self._draw_visited_nodes(qp)
 
     # View -> Controller
     def mousePressEvent(self, ev: QMouseEvent):
@@ -47,8 +52,13 @@ class GridCanvas(QWidget):
     def mouseReleaseEvent(self, ev):
         self._mouse_down = False
 
+    # Controller에 의해 한 번 호출
+    def draw_visited_nodes(self, visited_nodes):
+        self.visited_nodes = visited_nodes
+        self.update() 
+    
     # 내부 헬퍼들
-    def _draw_grid(self, qp: QPainter):
+    def _draw_grid(self, qp):
         pen = QPen(QColor(200, 200, 200))
         qp.setPen(pen)
         # 수직
@@ -68,23 +78,27 @@ class GridCanvas(QWidget):
                     qp.fillRect(x*CELL+1, y*CELL+1, CELL-1, CELL-1, color)
 
     def _draw_player(self, qp):
-        if getattr(self.grid, "player", None):
-            x, y = self.grid.player
+        if self.now_pos is not None:
+            x, y = self.now_pos
             qp.fillRect(x*CELL+4, y*CELL+4, CELL-8, CELL-8, QColor("red"))
 
-    # ① 궤적 / 최종 경로 그리기
     def _draw_path(self, qp):
-        if not getattr(self.grid, "trail", None) or len(self.grid.trail) < 2:
-            return
-        pen = QPen(QColor(30, 144, 255), 3)   # DodgerBlue, 두께 3
+        pen = QPen(QColor(30, 144, 255), 3)  # DodgerBlue, 두께 3
         qp.setPen(pen)
 
-        # trail 에 저장된 모든 좌표를 “셀 중심” 픽셀로 변환
-        pts = [ (x*CELL + CELL//2, y*CELL + CELL//2) for x, y in self.grid.trail ]
+        # final_path에 저장된 모든 좌표를 “셀 중심” 픽셀로 변환
+        pts = [(x * CELL + CELL // 2, y * CELL + CELL // 2) for x, y in self.final_path]
+
         # poly-line 그리기
         for (x1, y1), (x2, y2) in zip(pts, pts[1:]):
             qp.drawLine(x1, y1, x2, y2)
-
+    
+    def _draw_visited_nodes(self, qp):
+        if not self.visited_nodes:
+            return
+        color = QColor(128, 128, 128, 100)  # 회색, 반투명
+        for (x, y) in self.visited_nodes:
+            qp.fillRect(x * CELL + 1, y * CELL + 1, CELL - 1, CELL - 1, color)
 # ───────────────────────────────────
 # 2) 컨트롤 패널
 # ───────────────────────────────────

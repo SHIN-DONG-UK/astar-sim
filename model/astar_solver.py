@@ -15,13 +15,11 @@ class AStarSolver:
         self.openNode = []
         self.gcost = {}          # (x, y) -> g
         self.parent= {}          # (x, y) -> (px, px)
-        self.path = []
 
     def init(self):
         self.openNode = []
         self.gcost = {}          # (x, y) -> g
         self.parent= {}          # (x, y) -> (px, px)
-        self.path = []
 
         sx, sy = self.grid.start
         self.gcost[(sx,sy)] = 0
